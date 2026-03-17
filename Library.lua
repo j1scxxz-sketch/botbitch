@@ -1482,8 +1482,10 @@ Instances:Create("UIGradient", {
             local SlideY = MathClamp((Input.Position.Y - Items["Palette"].Instance.AbsolutePosition.Y) / Items["Palette"].Instance.AbsoluteSize.Y, 0, 0.985)
 
             Items["PaletteDragger"]:Tween(TweenInfo.new(0.21, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Position = UDim2New(SlideX, 0, SlideY, 0)})
-            self:Update()
-self:Set(self.HoveringColor, self.Alpha)
+self:Update()
+if self.HoveringColor then
+    self:Set(self.HoveringColor, self.Alpha)
+end
         end
 
         function Colorpicker:SlideHue(Input)
@@ -1498,8 +1500,10 @@ self:Set(self.HoveringColor, self.Alpha)
             local SlideY = MathClamp((Input.Position.Y - Items["Hue"].Instance.AbsolutePosition.Y) / Items["Hue"].Instance.AbsoluteSize.Y, 0, 0.985)
 
             Items["HueDragger"]:Tween(TweenInfo.new(0.21, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Position = UDim2New(0, 1, SlideY, 0)})
-            self:Update()
-self:Set(self.HoveringColor, self.Alpha)
+self:Update()
+if self.HoveringColor then
+    self:Set(self.HoveringColor, self.Alpha)
+end
         end
 
         function Colorpicker:SlideAlpha(Input)
@@ -1514,8 +1518,10 @@ self:Set(self.HoveringColor, self.Alpha)
             local SlideX = MathClamp((Input.Position.X - Items["Alpha"].Instance.AbsolutePosition.X) / Items["Alpha"].Instance.AbsoluteSize.X, 0, 0.99)
 
             Items["AlphaDragger"]:Tween(TweenInfo.new(0.21, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Position = UDim2New(SlideX, 0, 0, 1)})
-            self:Update(true)
-self:Set(self.HoveringColor, self.Alpha)
+self:Update(true)
+if self.HoveringColor then
+    self:Set(self.HoveringColor, self.Alpha)
+end
         end
 
         function Colorpicker:Update(IsFromAlpha)
