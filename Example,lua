@@ -1,4 +1,4 @@
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/sametexe001/sametlibs/refs/heads/main/Bitchbot%20V1/Library.lua"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/j1scxxz-sketch/botbitch/refs/heads/main/Library.lua"))()
 
 local Window = Library:Window({
     Name = "bitch bot!",
