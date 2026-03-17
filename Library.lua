@@ -2933,7 +2933,7 @@ Instances:Create("UIGradient", {
     }
 })
 -- Shine sweep on click
-SubItems["Inline"]:Connect("MouseButton1Down", function()
+SubItems["Inline"].Instance.MouseButton1Down:Connect(function()
     local Shine = Instances:Create("Frame", {
         Parent = SubItems["Inline"].Instance,
         Name = "\0",
@@ -2956,12 +2956,13 @@ SubItems["Inline"]:Connect("MouseButton1Down", function()
         }
     })
 
-local ShineTween = Tween:Create(Shine.Instance, TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Position = UDim2New(1.1, 0, 0, 0)}, true)
+    local ShineTween = Tween:Create(Shine.Instance, TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Position = UDim2New(1.1, 0, 0, 0)}, true)
 
-Library:Connect(ShineTween.Tween.Completed, function()
-    if Shine and Shine.Instance then
-        Shine:Clean()
-    end
+    ShineTween.Tween.Completed:Connect(function()
+        if Shine and Shine.Instance then
+            Shine:Clean()
+        end
+    end)
 end)
                     SubItems["Text"] = Instances:Create("TextLabel", {
                         Parent = SubItems["Inline"].Instance,
