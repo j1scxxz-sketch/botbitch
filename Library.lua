@@ -1146,7 +1146,7 @@ Items["ColorpickerWindow"] = Instances:Create("Frame", {
     Name = "\0",
     Position = UDim2New(0, Items["ColorpickerButton"].Instance.AbsolutePosition.X, 0, Items["ColorpickerButton"].Instance.AbsolutePosition.Y + 26),
     BorderColor3 = FromRGB(31, 25, 36),
-    Size = UDim2New(0, 211, 0, 207),
+    Size = UDim2New(0, 211, 0, 185),
     BorderSizePixel = 2,
     BackgroundColor3 = FromRGB(39, 39, 44),
     Visible = false,
@@ -1165,17 +1165,13 @@ Instances:Create("Frame", {
     ZIndex = 10
 }):AddToTheme({BackgroundColor3 = "Accent"})
 
--- inner background gradient top to bottom
+-- inner background gradient top to bottom, stays close to theme
 Instances:Create("UIGradient", {
     Parent = Items["ColorpickerWindow"].Instance,
     Name = "\0",
     Rotation = 90,
-    Color = RGBSequence{
-        RGBSequenceKeypoint(0, FromRGB(50, 50, 55)),
-        RGBSequenceKeypoint(1, FromRGB(35, 35, 40))
-    },
     Transparency = NumSequence{
-        NumSequenceKeypoint(0, 0),
+        NumSequenceKeypoint(0, 0.08),
         NumSequenceKeypoint(1, 0)
     }
 })
@@ -1373,30 +1369,6 @@ Instances:Create("UIGradient", {
                 ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
                 LineJoinMode = Enum.LineJoinMode.Miter
             })
-
-            Items["ConfirmButton"] = Instances:Create("TextButton", {
-                Parent = Items["ColorpickerWindow"].Instance,
-                Name = "\0",
-                FontFace = Library.Font,
-                TextColor3 = FromRGB(230, 230, 230),
-                BorderColor3 = FromRGB(0, 0, 0),
-                Text = "[Confirm]",
-                AutoButtonColor = false,
-                AnchorPoint = Vector2New(0, 1),
-                Size = UDim2New(0.5, -8, 0, 15),
-                BackgroundTransparency = 1,
-                TextXAlignment = Enum.TextXAlignment.Left,
-                Position = UDim2New(0, 8, 1, -3),
-                BorderSizePixel = 0,
-                TextSize = 12,
-                BackgroundColor3 = FromRGB(255, 255, 255)
-            })  Items["ConfirmButton"]:AddToTheme({TextColor3 = "Text"})
-
-            Instances:Create("UIStroke", {
-                Parent = Items["ConfirmButton"].Instance,
-                Name = "\0",
-                LineJoinMode = Enum.LineJoinMode.Miter
-            }):AddToTheme({Color = "Text Border"})
 
             Items["CloseButton"] = Instances:Create("TextButton", {
                 Parent = Items["ColorpickerWindow"].Instance,
@@ -1674,17 +1646,7 @@ Instances:Create("UIGradient", {
                 Colorpicker:SetOpen(false)
             end
         end)
-    
-        Items["ConfirmButton"]:Connect("MouseButton1Down", function()
-            Colorpicker:Set(Colorpicker.HoveringColor, Colorpicker.Alpha)
-            Colorpicker.LastColor = Colorpicker.Color
-            Colorpicker:SetOpen(false)
-        end)
 
-        Items["CloseButton"]:Connect("MouseButton1Down", function()
-            Colorpicker:Set(Colorpicker.LastColor, Colorpicker.Alpha)
-            Colorpicker:SetOpen(false)
-        end)
 
         if Data.Default then 
             Colorpicker:Set(Data.Default, Data.Alpha)
@@ -2954,14 +2916,13 @@ Instances:Create("UIGradient", {
     Rotation = 90,
     Color = RGBSequence{
         RGBSequenceKeypoint(0, FromRGB(255, 255, 255)),
-        RGBSequenceKeypoint(1, FromRGB(180, 180, 180))
+        RGBSequenceKeypoint(1, FromRGB(255, 255, 255))
     },
     Transparency = NumSequence{
-        NumSequenceKeypoint(0, 0.5),
-        NumSequenceKeypoint(1, 0.75)
+        NumSequenceKeypoint(0, 0.6),
+        NumSequenceKeypoint(1, 0.85)
     }
 })
-
 -- Shine sweep on click
 SubItems["Inline"]:Connect("MouseButton1Down", function()
     local Shine = Instances:Create("Frame", {
@@ -3110,14 +3071,13 @@ Items["Accent"] = Instances:Create("Frame", {
 Instances:Create("UIGradient", {
     Parent = Items["Accent"].Instance,
     Name = "\0",
-    Rotation = 0,
+    Rotation = 90,
     Color = RGBSequence{
         RGBSequenceKeypoint(0, FromRGB(255, 255, 255)),
-        RGBSequenceKeypoint(1, FromRGB(180, 180, 180))
+        RGBSequenceKeypoint(1, FromRGB(255, 255, 255))
     },
     Transparency = NumSequence{
-        NumSequenceKeypoint(0, 0.55),
-        NumSequenceKeypoint(0.5, 0.7),
+        NumSequenceKeypoint(0, 0.6),
         NumSequenceKeypoint(1, 0.85)
     }
 })
