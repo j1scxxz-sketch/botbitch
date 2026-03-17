@@ -1483,6 +1483,7 @@ Instances:Create("UIGradient", {
 
             Items["PaletteDragger"]:Tween(TweenInfo.new(0.21, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Position = UDim2New(SlideX, 0, SlideY, 0)})
             self:Update()
+self:Set(self.HoveringColor, self.Alpha)
         end
 
         function Colorpicker:SlideHue(Input)
@@ -1498,6 +1499,7 @@ Instances:Create("UIGradient", {
 
             Items["HueDragger"]:Tween(TweenInfo.new(0.21, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Position = UDim2New(0, 1, SlideY, 0)})
             self:Update()
+self:Set(self.HoveringColor, self.Alpha)
         end
 
         function Colorpicker:SlideAlpha(Input)
@@ -1513,6 +1515,7 @@ Instances:Create("UIGradient", {
 
             Items["AlphaDragger"]:Tween(TweenInfo.new(0.21, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Position = UDim2New(SlideX, 0, 0, 1)})
             self:Update(true)
+self:Set(self.HoveringColor, self.Alpha)
         end
 
         function Colorpicker:Update(IsFromAlpha)
@@ -2911,7 +2914,7 @@ SubItems["Inline"] = Instances:Create("TextButton", {
 })  SubItems["Inline"]:AddToTheme({BackgroundColor3 = "Accent"})
 
 Instances:Create("UIGradient", {
-    Parent = SubItems["Inline"].Instance,
+    Parent = Items["Accent"].Instance,
     Name = "\0",
     Rotation = 90,
     Color = RGBSequence{
@@ -2919,8 +2922,8 @@ Instances:Create("UIGradient", {
         RGBSequenceKeypoint(1, FromRGB(255, 255, 255))
     },
     Transparency = NumSequence{
-        NumSequenceKeypoint(0, 0.6),
-        NumSequenceKeypoint(1, 0.85)
+        NumSequenceKeypoint(0, 0.75),
+        NumSequenceKeypoint(1, 0.95)
     }
 })
 -- Shine sweep on click
