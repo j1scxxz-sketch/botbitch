@@ -1141,16 +1141,44 @@ local Library do
                 BackgroundColor3 = FromRGB(255, 255, 255)
             })
 
-            Items["ColorpickerWindow"] = Instances:Create("Frame", {
-                Parent = Library.Holder.Instance,
-                Name = "\0",
-                Position = UDim2New(0, Items["ColorpickerButton"].Instance.AbsolutePosition.X, 0, Items["ColorpickerButton"].Instance.AbsolutePosition.Y + 26),
-                BorderColor3 = FromRGB(31, 25, 36),
-                Size = UDim2New(0, 211, 0, 207),
-                BorderSizePixel = 2,
-                BackgroundColor3 = FromRGB(39, 39, 44),
-                Visible = false
-            })  Items["ColorpickerWindow"]:AddToTheme({BorderColor3 = "Border", BackgroundColor3 = "Background"})
+Items["ColorpickerWindow"] = Instances:Create("Frame", {
+    Parent = Library.Holder.Instance,
+    Name = "\0",
+    Position = UDim2New(0, Items["ColorpickerButton"].Instance.AbsolutePosition.X, 0, Items["ColorpickerButton"].Instance.AbsolutePosition.Y + 26),
+    BorderColor3 = FromRGB(31, 25, 36),
+    Size = UDim2New(0, 211, 0, 207),
+    BorderSizePixel = 2,
+    BackgroundColor3 = FromRGB(39, 39, 44),
+    Visible = false,
+    ClipsDescendants = true
+})  Items["ColorpickerWindow"]:AddToTheme({BorderColor3 = "Border", BackgroundColor3 = "Background"})
+
+-- subtle top accent strip
+Instances:Create("Frame", {
+    Parent = Items["ColorpickerWindow"].Instance,
+    Name = "\0",
+    BorderColor3 = FromRGB(0, 0, 0),
+    Position = UDim2New(0, 0, 0, 0),
+    Size = UDim2New(1, 0, 0, 2),
+    BorderSizePixel = 0,
+    BackgroundColor3 = Library.Theme.Accent,
+    ZIndex = 10
+}):AddToTheme({BackgroundColor3 = "Accent"})
+
+-- inner background gradient top to bottom
+Instances:Create("UIGradient", {
+    Parent = Items["ColorpickerWindow"].Instance,
+    Name = "\0",
+    Rotation = 90,
+    Color = RGBSequence{
+        RGBSequenceKeypoint(0, FromRGB(50, 50, 55)),
+        RGBSequenceKeypoint(1, FromRGB(35, 35, 40))
+    },
+    Transparency = NumSequence{
+        NumSequenceKeypoint(0, 0),
+        NumSequenceKeypoint(1, 0)
+    }
+})
 
             Items["ColorpickerWindow"]:MakeDraggable()
             Items["ColorpickerWindow"]:MakeResizeable(Vector2New(211, 207), Vector2New(9999, 9999))
@@ -2905,20 +2933,65 @@ end)
                         ApplyStrokeMode = Enum.ApplyStrokeMode.Border
                     }):AddToTheme({Color = "Border"})
 
-                    SubItems["Inline"] = Instances:Create("TextButton", {
-                        Parent = SubItems["NewButton"].Instance,
-                        Name = "\0",
-                        FontFace = Library.Font,
-                        TextColor3 = FromRGB(0, 0, 0),
-                        BorderColor3 = FromRGB(0, 0, 0),
-                        Text = "",
-                        AutoButtonColor = false,
-                        Position = UDim2New(0, 1, 0, 1),
-                        Size = UDim2New(1, -2, 1, -2),
-                        BorderSizePixel = 0,
-                        TextSize = 14,
-                        BackgroundColor3 = FromRGB(139, 69, 182)
-                    })  SubItems["Inline"]:AddToTheme({BackgroundColor3 = "Accent"})
+SubItems["Inline"] = Instances:Create("TextButton", {
+    Parent = SubItems["NewButton"].Instance,
+    Name = "\0",
+    FontFace = Library.Font,
+    TextColor3 = FromRGB(0, 0, 0),
+    BorderColor3 = FromRGB(0, 0, 0),
+    Text = "",
+    AutoButtonColor = false,
+    Position = UDim2New(0, 1, 0, 1),
+    Size = UDim2New(1, -2, 1, -2),
+    BorderSizePixel = 0,
+    TextSize = 14,
+    BackgroundColor3 = FromRGB(139, 69, 182)
+})  SubItems["Inline"]:AddToTheme({BackgroundColor3 = "Accent"})
+
+Instances:Create("UIGradient", {
+    Parent = SubItems["Inline"].Instance,
+    Name = "\0",
+    Rotation = 90,
+    Color = RGBSequence{
+        RGBSequenceKeypoint(0, FromRGB(255, 255, 255)),
+        RGBSequenceKeypoint(1, FromRGB(180, 180, 180))
+    },
+    Transparency = NumSequence{
+        NumSequenceKeypoint(0, 0.5),
+        NumSequenceKeypoint(1, 0.75)
+    }
+})
+
+-- Shine sweep on click
+SubItems["Inline"]:Connect("MouseButton1Down", function()
+    local Shine = Instances:Create("Frame", {
+        Parent = SubItems["Inline"].Instance,
+        Name = "\0",
+        BackgroundColor3 = FromRGB(255, 255, 255),
+        BackgroundTransparency = 0.7,
+        BorderSizePixel = 0,
+        Position = UDim2New(-0.1, 0, 0, 0),
+        Size = UDim2New(0.15, 0, 1, 0),
+        ZIndex = 5
+    })
+
+    Instances:Create("UIGradient", {
+        Parent = Shine.Instance,
+        Name = "\0",
+        Rotation = 0,
+        Transparency = NumSequence{
+            NumSequenceKeypoint(0, 1),
+            NumSequenceKeypoint(0.5, 0.6),
+            NumSequenceKeypoint(1, 1)
+        }
+    })
+
+    Tween:Create(Shine.Instance, TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Position = UDim2New(1.1, 0, 0, 0)}, true)
+
+    task.delay(0.4, function()
+        Shine:Clean()
+    end)
+end)
 
                     SubItems["Text"] = Instances:Create("TextLabel", {
                         Parent = SubItems["Inline"].Instance,
@@ -3025,14 +3098,29 @@ end)
                     ApplyStrokeMode = Enum.ApplyStrokeMode.Border
                 }):AddToTheme({Color = "Border"})
 
-                Items["Accent"] = Instances:Create("Frame", {
-                    Parent = Items["RealSlider"].Instance,
-                    Name = "\0",
-                    BorderColor3 = FromRGB(0, 0, 0),
-                    Size = UDim2New(0.4000000059604645, 0, 1, 0),
-                    BorderSizePixel = 0,
-                    BackgroundColor3 = FromRGB(139, 69, 182)
-                })  Items["Accent"]:AddToTheme({BackgroundColor3 = "Accent"})
+Items["Accent"] = Instances:Create("Frame", {
+    Parent = Items["RealSlider"].Instance,
+    Name = "\0",
+    BorderColor3 = FromRGB(0, 0, 0),
+    Size = UDim2New(0.4000000059604645, 0, 1, 0),
+    BorderSizePixel = 0,
+    BackgroundColor3 = FromRGB(139, 69, 182)
+})  Items["Accent"]:AddToTheme({BackgroundColor3 = "Accent"})
+
+Instances:Create("UIGradient", {
+    Parent = Items["Accent"].Instance,
+    Name = "\0",
+    Rotation = 0,
+    Color = RGBSequence{
+        RGBSequenceKeypoint(0, FromRGB(255, 255, 255)),
+        RGBSequenceKeypoint(1, FromRGB(180, 180, 180))
+    },
+    Transparency = NumSequence{
+        NumSequenceKeypoint(0, 0.55),
+        NumSequenceKeypoint(0.5, 0.7),
+        NumSequenceKeypoint(1, 0.85)
+    }
+})
 
                 Items["Value"] = Instances:Create("TextLabel", {
                     Parent = Items["RealSlider"].Instance,
