@@ -2082,6 +2082,24 @@ local Library do
                     BackgroundColor3 = FromRGB(39, 39, 44)
                 })  Items["MainFrame"]:AddToTheme({BackgroundColor3 = "Background", BorderColor3 = "Border"})
 
+                Instances:Create("ImageLabel", {
+    Parent = Items["MainFrame"].Instance,
+    Name = "\0",
+    ImageColor3 = Library.Theme.Accent,
+    ScaleType = Enum.ScaleType.Slice,
+    BorderColor3 = FromRGB(0, 0, 0),
+    BackgroundColor3 = FromRGB(255, 255, 255),
+    Visible = true,
+    Image = "http://www.roblox.com/asset/?id=18245826428",
+    BackgroundTransparency = 1,
+    ImageTransparency = 0.6,
+    Position = UDim2New(0, -20, 0, -20),
+    Size = UDim2New(1, 40, 1, 40),
+    ZIndex = 0,
+    BorderSizePixel = 0,
+    SliceCenter = RectNew(Vector2New(21, 21), Vector2New(79, 79))
+}):AddToTheme({ImageColor3 = "Accent"})
+
                 Items["MainFrame"]:MakeDraggable()
                 Items["MainFrame"]:MakeResizeable(Vector2New(Window.Size.X.Offset, Window.Size.Y.Offset), Vector2New(9999, 9999))
 
@@ -2438,6 +2456,21 @@ local Library do
                     Items["UIStroke"]:Tween(nil, {Color = Library.Theme.Background})
                     Items["Inactive"]:Tween(nil, {BackgroundColor3 = Library.Theme.Background})
                     Items["Hide"]:Tween(nil, {BackgroundColor3 = Library.Theme.Background})
+                    if not Items["ActiveBar"] then
+    Items["ActiveBar"] = Instances:Create("Frame", {
+        Parent = Items["Inactive"].Instance,
+        Name = "\0",
+        AnchorPoint = Vector2New(0.5, 1),
+        Position = UDim2New(0.5, 0, 1, 0),
+        BorderColor3 = FromRGB(0, 0, 0),
+        Size = UDim2New(0, 0, 0, 2),
+        BorderSizePixel = 0,
+        BackgroundColor3 = Library.Theme.Accent,
+        ZIndex = 10
+    })
+    Items["ActiveBar"]:AddToTheme({BackgroundColor3 = "Accent"})
+end
+Items["ActiveBar"]:Tween(TweenInfo.new(0.3, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = UDim2New(0.8, 0, 0, 2)})
                 else
                     Items["PageContent"].Instance.Parent = Library.UnusedHolder.Instance
 
@@ -2448,6 +2481,9 @@ local Library do
                     Items["UIStroke"]:Tween(nil, {Color = Library.Theme.Outline})
                     Items["Inactive"]:Tween(nil, {BackgroundColor3 = Library.Theme["Page Background"]})
                     Items["Hide"]:Tween(nil, {BackgroundColor3 = Library.Theme.Outline})
+                    if Items["ActiveBar"] then
+    Items["ActiveBar"]:Tween(TweenInfo.new(0.2, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = UDim2New(0, 0, 0, 2)})
+end
                 end
 
                 local Descendants = Items["PageContent"].Instance:GetDescendants()
@@ -2773,6 +2809,14 @@ local Library do
                     Library:SafeCall(self.Callback, self.Value)
                 end
             end
+
+            Items["Toggle"]:OnHover(function()
+    Items["Text"]:Tween(nil, {TextColor3 = Library.Theme["Light Accent"]})
+end)
+
+Items["Toggle"]:OnHoverLeave(function()
+    Items["Text"]:Tween(nil, {TextColor3 = Library.Theme.Text})
+end)
 
             Items["Toggle"]:Connect("MouseButton1Down", function()
                 Toggle:Set(not Toggle.Value)
